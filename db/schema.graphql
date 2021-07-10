@@ -1,0 +1,176 @@
+type Cliente {
+	id: ID
+	nombre: String
+	apellido: String
+	empresa: String
+	emails: [Email]
+	edad: Int
+	tipo: TipoCliente
+	vendedor: ID
+}
+
+type Producto {
+	id: ID
+	nombre: String
+	precio: Float
+	stock: Int
+}
+
+type Email {
+	email: String
+}
+
+type PedidoProducto {
+	id: ID
+	cantidad: Int
+}
+
+type Pedido {
+	id: ID
+	pedido: [PedidoProducto]
+	total: Float
+	fecha: String
+	cliente: ID
+	estado: EstadoPedido
+	vendedor: ID
+}
+
+type ClienteTop {
+	total: Float
+	cliente: [Cliente]
+}
+
+type Token {
+	token: String!
+}
+
+type Usuario {
+	id: ID
+	usuario: String
+	nombre: String
+	rol: String
+}
+
+type VendedorTop {
+	total: Float
+	vendedor: [Usuario]
+}
+
+"""
+Asigna la categoria del Cliente
+"""
+enum TipoCliente {
+	BASICO
+	PREMIUM
+}
+
+"""
+Asigna el Estado del Pedido
+"""
+enum EstadoPedido {
+	PENDIENTE
+	COMPLETADO
+	CANCELADO
+}
+
+# Input se utiliza para entrada de los datos
+
+input EmailInput {
+	email: String!
+}
+
+"""
+Campos para los clientes nuevos
+"""
+input ClienteInput {
+	id: ID
+	nombre: String!
+	apellido: String!
+	empresa: String!
+	emails: [EmailInput]
+	edad: Int!
+	tipo: TipoCliente!
+	vendedor: ID
+}
+
+"""
+Campos para los productos nuevos
+"""
+input ProductoInput {
+	id: ID
+	nombre: String!
+	precio: Float!
+	stock: Int!
+}
+
+"""
+Campos de los productos de un Nuevo Pedido
+"""
+input PedidoProductoInput {
+	id: ID
+	cantidad: Int
+}
+
+"""
+Campos para un nuevo Pedido
+"""
+input PedidoInput {
+	id: ID
+	pedido: [PedidoProductoInput]
+	total: Float
+	fecha: String
+	cliente: ID
+	estado: EstadoPedido
+	vendedor: ID
+}
+
+"""
+Mutations para crear nuevos clientes, productos y pedidos
+"""
+type Mutation {
+	#Nombre del resolver , Input con Datos y valor que retorna
+	"""
+	Te permite crear nuevos clientes
+	"""
+	crearCliente(input: ClienteInput): Cliente
+	actualizarCliente(input: ClienteInput): Cliente
+	eliminarCliente(id: ID!): String
+
+	#Productos
+	nuevoProducto(input: ProductoInput): Producto
+	actualizarProducto(input: ProductoInput): Producto
+	eliminarProducto(id: ID!): String
+
+	#Pedidos
+	nuevoPedido(input: PedidoInput): Pedido
+	actualizarPedido(input: PedidoInput): Pedido
+	eliminarPedido(id: ID!): String
+
+	#Usuarios
+	nuevoUsuario(usuario: String!, nombre: String!, password: String!, rol: String!): String
+	autenticarUsuario(usuario: String!, password: String!): Token
+}
+
+"""
+Queries para consultar los clientes, productos y pedidos
+"""
+type Query {
+	getClientes(limite: Int, offset: Int, vendedor: String): [Cliente]
+	getCliente(id: ID!): Cliente
+	totalClientes(vendedor: String): String
+
+	#Productos
+	obtenerProductos(limite: Int, offset: Int, stock: Boolean): [Producto]
+	obtenerProducto(id: ID!): Producto
+	totalProductos: String
+
+	#Pedidos
+	obtenerPedidos(cliente: ID, vendedor: ID): [Pedido]
+
+	#Graficas
+	topClientes: [ClienteTop]
+	topVendedores: [VendedorTop]
+
+	#Usuarios
+	obtenerUsuario: Usuario
+}

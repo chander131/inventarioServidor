@@ -1,0 +1,7 @@
+// Configuraciones para permitir utilizar las ultimas caracteristicas de ECMScritp en este servidor
+{
+    "presets": [
+        "env",
+        "stage-0"
+    ]
+}
