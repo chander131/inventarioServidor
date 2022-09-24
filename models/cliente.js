@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const Schema = mongoose.Schema;
+const { Schema, Types, model } = mongoose;
 
 const clienteSchema = Schema({
 	nombre: String,
@@ -9,9 +9,9 @@ const clienteSchema = Schema({
 	emails: Array,
 	edad: Number,
 	tipo: String,
-	vendedor: mongoose.Types.ObjectId
+	vendedor: Types.ObjectId
 });
 
-const Cliente = mongoose.model('Cliente', clienteSchema);
+const Cliente = model('Cliente', clienteSchema);
 
 export default Cliente;

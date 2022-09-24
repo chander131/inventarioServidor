@@ -1,7 +1,7 @@
-import moongose from 'mongoose';
+import mongoose from 'mongoose';
 import bcryp from 'bcrypt';
 
-const Schema = moongose.Schema;
+const { Schema, model } = mongoose;
 
 const usuarioSchema = Schema({
     usuario: String,
@@ -26,6 +26,6 @@ usuarioSchema.pre('save', function (next) {
     });
 });
 
-const Usuario = moongose.model('Usuario', usuarioSchema, 'usuarios');
+const Usuario = model('Usuario', usuarioSchema, 'usuarios');
 
 export default Usuario;

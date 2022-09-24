@@ -1,6 +1,6 @@
-import mongoose, { Types } from 'mongoose';
+import mongoose from 'mongoose';
 
-const Schema = mongoose.Schema;
+const { Schema, Types, model } = mongoose;
 
 const pedidoSchema = Schema({
     pedido: Array,
@@ -11,6 +11,6 @@ const pedidoSchema = Schema({
     vendedor: Types.ObjectId,
 });
 
-const Pedido = mongoose.model('Pedidos', pedidoSchema);
+const Pedido = model('Pedidos', pedidoSchema);
 
 export default Pedido;
